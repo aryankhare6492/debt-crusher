@@ -21,6 +21,73 @@
   --font-head: 'Syne', sans-serif;--font-body: 'DM Sans', sans-serif;--font-mono: 'JetBrains Mono', monospace;
   --transition: 0.2s ease;
 }
+.tax-banner {
+  background: linear-gradient(90deg, #2D6A4F, #1B4332);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.tax-banner a {
+  color: #D4A843;
+  text-decoration: underline;
+  font-weight: 700;
+}
+.countdown-timer {
+  font-family: var(--font-mono);
+  background: rgba(0,0,0,0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+.dashboard-upsell-card {
+  background: linear-gradient(135deg, var(--upsell-bg), #3D2A1D);
+  color: white;
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #D4A843;
+  position: relative;
+  overflow: hidden;
+}
+.dashboard-upsell-content {
+  flex: 1;
+}
+.dashboard-upsell-title {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #D4A843;
+}
+.dashboard-upsell-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  max-width: 400px;
+}
+.dashboard-upsell-cta {
+  background: #D4A843;
+  color: #2D1A10;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.dashboard-upsell-cta:hover {
+  transform: scale(1.05);
+}
 [data-theme="dark"] {
   --bg: #0E0D0B;--bg2: #1A1814;--card: #1F1D18;--card2: #2A2720;--border: #333028;
   --text: #F0EDE7;--text2: #948F88;--text3: #5C5852;
@@ -366,6 +433,11 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 </style>
 </head>
 <body>
+<div class="tax-banner">
+  🚀 TAX SEASON SPECIAL: Crush your debt with our $9 Budget Planner! 
+  <a href="https://payhip.com/b/kYOv7" target="_blank">GET IT NOW</a>
+  <span class="countdown-timer" id="banner-timer">00:00:00</span>
+</div>
 
 <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
 
@@ -419,7 +491,19 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 
   <!-- ─── DASHBOARD ─── -->
   <div class="page active" id="page-dashboard">
-    <div id="dashGreeting" style="margin-bottom:20px">
+    <div class="dashboard-upsell-card">
+      <div class="dashboard-upsell-content">
+        <div class="dashboard-upsell-title">Using your Tax Refund to Crush Debt? 💸</div>
+        <div class="dashboard-upsell-text">
+          Pair this tracker with our <strong>Monthly Budget Planner PDF</strong>. 
+          Track every dollar, save thousands in interest, and hit your debt-free date faster.
+        </div>
+      </div>
+      <a href="https://payhip.com/b/kYOv7" target="_blank" class="dashboard-upsell-cta">
+        Get the $9 Planner
+      </a>
+    </div>
+    <div class="grid4 mb20">tyle="margin-bottom:20px">
       <h1 style="font-family:var(--font-head);font-size:22px;font-weight:800">Good morning! 👋</h1>
       <p style="color:var(--text2);font-size:14px;margin-top:4px">Here's your debt-free journey at a glance.</p>
     </div>
@@ -1151,6 +1235,20 @@ renderDashboard();
 setStrategy(state.strategy,document.querySelector(`[data-strat="${state.strategy}"]`));
 checkMilestones();
 document.getElementById('payDate').value=fmtDate(new Date());
+</script>
+<script>
+  function updateTimer() {
+    const now = new Date();
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+    const diff = endOfDay - now;
+    const h = Math.floor(diff / 3600000).toString().padStart(2, '0');
+    const m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+    const s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+    document.getElementById('banner-timer').innerText = `${h}:${m}:${s}`;
+  }
+  setInterval(updateTimer, 1000);
+  updateTimer();
 </script>
 </body>
 </html>
